@@ -5,7 +5,7 @@ const JUMP_FORCE = 800;
 const SPEED = 480;
 
 // initialize context
-kaboom();
+let ctx = kaboom({global: true});
 
 // load assets
 loadSprite("bean", "sprites/bean.png");
@@ -29,7 +29,7 @@ scene("game", () => {
         rect(width(), FLOOR_HEIGHT),
         outline(4),
         pos(0, height()),
-        origin("botleft"),
+        ctx.origin("botleft"),
         area(),
         solid(),
         color(127, 200, 255),
@@ -53,7 +53,7 @@ scene("game", () => {
             area(),
             outline(4),
             pos(width(), height() - FLOOR_HEIGHT),
-            origin("botleft"),
+            ctx.origin("botleft"),
             color(255, 180, 255),
             move(LEFT, SPEED),
             "tree",
@@ -72,21 +72,21 @@ scene("game", () => {
         // go to "lose" scene and pass the score
         go("lose", score);
         burp();
-        addKaboom(player.pos);
+        ctx.addKaboom(player.pos);
     });
 
     // keep track of score
     let score = 0;
 
     const scoreLabel = add([
-        text(score),
+        ctx.text(score.toString()),
         pos(24, 24),
     ]);
 
     // increment score every frame
     onUpdate(() => {
         score++;
-        scoreLabel.text = score;
+        scoreLabel.text = score.toString();
     });
 
 });
@@ -97,7 +97,7 @@ scene("lose", (score) => {
         sprite("bean"),
         pos(width() / 2, height() / 2 - 80),
         scale(2),
-        origin("center"),
+        ctx.origin("center"),
     ]);
 
     // display score
@@ -105,7 +105,7 @@ scene("lose", (score) => {
         text(score),
         pos(width() / 2, height() / 2 + 80),
         scale(2),
-        origin("center"),
+        ctx.origin("center"),
     ]);
 
     // go back to game with space is pressed
